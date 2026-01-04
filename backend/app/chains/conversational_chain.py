@@ -39,10 +39,12 @@ def create_conversational_chain(user_id: str):
     ])
 
     chain = (
-        {
-            "context": (lambda x: x["question"]) | retriever,
-            "question": lambda x: x["question"]
-        }
+        
+            RunnablePassthrough.assign(
+                
+            context= (lambda x: x["question"]) | retriever
+            )
+        
         | prompt
         | llm
     )
