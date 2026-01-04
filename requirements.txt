@@ -1,11 +1,12 @@
 fastapi
 uvicorn[standard]
-langchain_openai
-langchain_community
+langchain-openai
+langchain-community
 langchain
 pypdf
-chromadb
 sqlalchemy
 psycopg2-binary
 python-dotenv
 python-multipart
+langchain-pinecone
+pinecone-client
