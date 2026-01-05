@@ -10,3 +10,4 @@ python-dotenv
 python-multipart
 langchain-pinecone
 pinecone-client
+redis
