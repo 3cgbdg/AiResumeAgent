@@ -11,3 +11,4 @@ python-multipart
 langchain-pinecone
 pinecone-client
 redis
+aiogram

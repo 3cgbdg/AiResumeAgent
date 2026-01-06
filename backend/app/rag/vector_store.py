@@ -1,13 +1,16 @@
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import pinecone
+from dotenv import load_dotenv
 from pinecone import ServerlessSpec
 from os import getenv
+from ..core.pinecone import get_pinecone_client
+
+load_dotenv()
 
 index_name = getenv("INDEX_NAME")
 
-pc = pinecone.Pinecone(api_key=getenv("PINECONE_API_KEY"))
+pc = get_pinecone_client()
 
 #   if index hasn`t been created yet
 
