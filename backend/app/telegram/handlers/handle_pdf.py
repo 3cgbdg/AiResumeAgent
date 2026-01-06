@@ -7,24 +7,22 @@ from ...rag.resume_loader import load_resume
 from ...rag.vector_store import create_vector_store
 
 
-dp = Dispatcher()
+def register_pdf_handler(dp:Dispatcher):
+    @dp.message(Command("start"))
+    async def start_handler(message: Message):
+        await message.answer("Hello! Send me a PDF resume to upload it.")
 
 
-@dp.message(Command("start"))
-async def start_handler(message: Message):
-    await message.answer("Hello! Send me a PDF resume to upload it.")
+    # catching doc having pdf type
 
+    @dp.message(F.document.mime_type == "application/pdf")
+    async def handle_pdf(message: Message):
+        user_id = str(message.from_user.id)
 
-# catching doc having pdf type
-
-@dp.message(F.document.mime_type == "application/pdf")
-async def handle_pdf(message: Message):
-    user_id = str(message.from_user.id)
-
-    with NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        await message.bot.download(message.document, destination=tmp.name)
-        file_path = tmp.name
-    docs = load_resume(file_path)
-    create_vector_store(docs, user_id)
-    remove(file_path)
-    await message.answer("PDF has been uploaded")
+        with NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            await message.bot.download(message.document, destination=tmp.name)
+            file_path = tmp.name
+        docs = load_resume(file_path)
+        create_vector_store(docs, user_id)
+        remove(file_path)
+        await message.answer("PDF has been uploaded")
